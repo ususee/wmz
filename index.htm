@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>琳一平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --success: #06d6a0;
+            --danger: #ef476f;
+            --warning: #ffd166;
+            --info: #118ab2;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --card-bg: #ffffff;
+            --body-bg: #f0f2f5;
+            --text-primary: #32325d;
+            --text-secondary: #525f7f;
+            --border-radius: 12px;
+            --box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: var(--body-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 100%;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            margin: 10px 0;
+            transition: var(--transition);
+        }
+        
+        header {
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 60%);
+            transform: rotate(30deg);
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+            position: relative;
+        }
+        
+        .description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            font-weight: 300;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .content {
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .card:hover {
+            box-shadow: 0 10px 20px rgba(50, 50, 93, 0.15), 0 5px 10px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .upload-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .upload-area {
+            border: 2px dashed #d1d8e0;
+            border-radius: var(--border-radius);
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background: rgba(67, 97, 238, 0.03);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .upload-area:hover {
+            background: rgba(67, 97, 238, 0.07);
+            border-color: var(--primary);
+        }
+        
+        .upload-area.active {
+            background: rgba(6, 214, 160, 0.1);
+            border-color: var(--success);
+        }
+        
+        .upload-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            transition: var(--transition);
+        }
+        
+        .upload-area:hover .upload-icon {
+            transform: scale(1.1);
+            color: var(--secondary);
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-info {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(67, 97, 238, 0.05);
+            border-radius: var(--border-radius);
+            display: none;
+            animation: fadeIn 0.5s ease;
+            font-size: 0.9rem;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            transition: var(--transition);
+            background: var(--card-bg);
+            color: var(--text-primary);
+        }
+        
+        input[type="text"]:focus, input[type="number"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            outline: none;
+        }
+        
+        button {
+            padding: 12px 20px;
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .btn-verify-single {
+            width: 100%;
+        }
+        
+        .btn-verify-batch {
+            width: 100%;
+            background: linear-gradient(to right, var(--success), #05c290);
+        }
+        
+        .btn-clear {
+            background: linear-gradient(to right, var(--danger), #e5366a);
+        }
+        
+        .btn-stop {
+            background: linear-gradient(to right, var(--warning), #f5c750);
+        }
+        
+        .result-container {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .result-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .result-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 20px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .success-icon {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .error-icon {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .result-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        
+        .result-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .success-badge {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .error-badge {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .batch-results {
+            margin-top: 20px;
+        }
+        
+        .batch-summary {
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            text-align: center;
+            color: white;
+            box-shadow: var(--box-shadow);
+            gap: 15px;
+        }
+        
+        .summary-item {
+            padding: 8px;
+            flex: 1;
+            min-width: 25%;
+        }
+        
+        .summary-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        .summary-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        
+        .results-table-container {
+            overflow-x: auto;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .results-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            min-width: 600px;
+        }
+        
+        .results-table th {
+            background: var(--primary);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .results-table th:first-child {
+            border-top-left-radius: var(--border-radius);
+        }
+        
+        .results-table th:last-child {
+            border-top-right-radius: var(--border-radius);
+        }
+        
+        .results-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 0.9rem;
+        }
+        
+        .results-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .results-table tr:last-child td:first-child {
+            border-bottom-left-radius: var(--border-radius);
+        }
+        
+        .results-table tr:last-child td:last-child {
+            border-bottom-right-radius: var(--border-radius);
+        }
+        
+        .results-table tr:nth-child(even) {
+            background: rgba(67, 97, 238, 0.03);
+        }
+        
+        .status-success {
+            color: var(--success);
+            font-weight: 500;
+        }
+        
+        .status-error {
+            color: var(--danger);
+            font-weight: 500;
+        }
+        
+        .status-skipped {
+            color: var(--warning);
+            font-weight: 500;
+        }
+        
+        .loading {
+            text-align: center;
+            display: none;
+            margin: 25px 0;
+            animation: fadeIn 0.5s ease;
+            font-size: 0.9rem;
+        }
+        
+        .loading-spinner {
+            border: 4px solid rgba(67, 97, 238, 0.2);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        .progress-container {
+            width: 100%;
+            background: #e9ecef;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+            height: 10px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+        
+        .control-panel {
+            background: rgba(67, 97, 238, 0.05);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .request-delay {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        
+        .request-delay input {
+            width: 80px;
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius);
+            background: var(--card-bg);
+            color: var(--text-primary);
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            color: var(--gray);
+            font-size: 12px;
+            width: 100%;
+        }
+        
+        .results-tabs {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+            flex-wrap: wrap;
+            display: none; /* 隐藏标签，只显示错误结果 */
+        }
+        
+        .results-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background: transparent;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+            font-size: 0.9rem;
+        }
+        
+        .results-tab.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+            background: rgba(67, 97, 238, 0.05);
+        }
+        
+        .results-tab:hover:not(.active) {
+            background: rgba(67, 97, 238, 0.03);
+            color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(50, 50, 93, 0.15), 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        /* CMD输出区域样式 - 黑色终端风格 */
+        .cmd-body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            padding: 12px;
+            border-radius: var(--border-radius);
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin-bottom: 15px;
+            box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.2);
+            font-size: 11px;
+            line-height: 1.3;
+        }
+        
+        .cmd-line {
+            margin-bottom: 3px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .cmd-prompt {
+            color: #0f0;
+            font-weight: bold;
+            margin-right: 6px;
+            flex-shrink: 0;
+            font-size: 11px;
+        }
+        
+        .cmd-command {
+            color: #0ff;
+            font-size: 11px;
+            word-break: break-all;
+        }
+        
+        .cmd-info {
+            color: #0ff;
+            font-size: 11px;
+        }
+        
+        .cmd-success {
+            color: #0f0;
+            font-size: 11px;
+        }
+        
+        .cmd-error {
+            color: #f00;
+            font-size: 11px;
+        }
+        
+        .cmd-warning {
+            color: #ff0;
+            font-size: 11px;
+        }
+        
+        .cmd-output {
+            color: #ccc;
+            font-size: 11px;
+        }
+        
+        .save-btn {
+            background: linear-gradient(to right, var(--info), #0f7ea4);
+        }
+        
+        .detail-row {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f3f9;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .detail-value {
+            flex: 1;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+        
+        .result-details h3 {
+            margin: 15px 0 12px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+        }
+        
+        /* 移动端特定的媒体查询 */
+        @media (min-width: 576px) {
+            body {
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 540px;
+            }
+            
+            .content {
+                padding: 25px 20px;
+            }
+            
+            .buttons-container {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .buttons-container button {
+                flex: 1;
+                min-width: 120px;
+            }
+            
+            .detail-row {
+                flex-direction: row;
+            }
+            
+            .detail-label {
+                min-width: 80px;
+                margin-bottom: 0;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                max-width: 720px;
+            }
+            
+            header {
+                padding: 25px 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .description {
+                font-size: 1rem;
+            }
+            
+            .card-title {
+                font-size: 1.3rem;
+            }
+            
+            .control-panel {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+            
+            .request-delay {
+                justify-content: flex-start;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .container {
+                max-width: 960px;
+            }
+            
+            .content {
+                padding: 30px 25px;
+            }
+            
+            .buttons-container {
+                flex-direction: row;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1140px;
+            }
+        }
+        
+        .floating-notification {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            left: 15px;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            background: var(--card-bg);
+            box-shadow: var(--box-shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            animation: slideIn 0.5s ease;
+            transform: translateY(100%);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .floating-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .notification-success {
+            border-left: 4px solid var(--success);
+        }
+        
+        .notification-error {
+            border-left: 4px solid var(--danger);
+        }
+        
+        .notification-warning {
+            border-left: 4px solid var(--warning);
+        }
+        
+        .floating-notification i {
+            font-size: 1.2rem;
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 3px;
+            font-size: 0.9rem;
+        }
+        
+        .notification-message {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .close-notification {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .close-notification:hover {
+            background: rgba(0,0,0,0.05);
+            color: var(--danger);
+        }
+        
+        @media (min-width: 576px) {
+            .floating-notification {
+                left: auto;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>琳一数字编码</h1>
+            <p class="description">琳一安全平台</p>
+        </header>
+        
+        <div class="content">
+            <!-- 验证日志区域 - 顶部位置 -->
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-terminal"></i>日志</h2>
+                <div class="cmd-body" id="cmd-output">
+                    <div class="cmd-line">
+                        <span class="cmd-prompt">🙄</span>
+                        <span class="cmd-command">日志加载成功，等待输入...</span>
+                    </div>
+                </div>
+                <div class="buttons-container">
+                    <button class="cmd-clear" id="clear-cmd">
+                        <i class="fas fa-broom"></i> 清空日志
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 批量验证区域 -->
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-file-upload"></i> 林一安全</h2>
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <p>上传琳一txt文档</p>
+                    <p class="small">文件格式：每行一个数字编码</p>
+                    <input type="file" id="file-input" class="file-input" accept=".txt">
+                </div>
+                <div class="file-info" id="file-info">
+                    <p><i class="fas fa-file"></i> 文件名: <span id="file-name">-</span></p>
+                    <p><i class="fas fa-list"></i> 数量: <span id="file-lines">0</span></p>
+                </div>
+                
+                <div class="control-panel">
+                    <div class="request-delay">
+                        <label for="request-delay">请求间隔(ms):</label>
+                        <input type="number" id="request-delay" value="500" min="100" max="5000">
+                    </div>
+                    
+                    <div class="buttons-container">
+                        <button id="verify-batch-btn" class="btn-verify-batch" disabled>
+                            <i class="fas fa-bolt"></i> 开始批量
+                        </button>
+                        <button id="stop-batch-btn" class="btn-stop" disabled>
+                            <i class="fas fa-stop"></i> 停止验证
+                        </button>
+                        <button id="save-btn" class="save-btn" disabled>
+                            <i class="fas fa-save"></i> 保存结果
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 单个验证区域 -->
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-user-check"></i> 用户编码</h2>
+                <div class="form-group">
+                    <label for="realname"><i class="fas fa-user"></i> 姓名</label>
+                    <input type="text" id="realname" placeholder="请输入姓名，将用于所有编码验证">
+                </div>
+                
+                <div class="form-group">
+                    <label for="idcard"><i class="fas fa-address-card"></i> 编码号码（单个验证）</label>
+                    <input type="text" id="idcard" placeholder="请输入18位编码号码" maxlength="18">
+                </div>
+                
+                <div class="buttons-container">
+                    <button id="verify-single-btn" class="btn-verify-single">
+                        <i class="fas fa-search"></i> 验证单个
+                    </button>
+                    <button id="clear-btn" class="btn-clear">
+                        <i class="fas fa-trash"></i> 清除输入
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 加载状态 -->
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p>正在验证，请稍候...</p>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+                <p id="progress-text">处理中: 0/0 (0%)</p>
+            </div>
+            
+            <!-- 结果区域 -->
+            <div class="result-container" id="result-container">
+                <!-- 结果将由JavaScript动态生成 -->
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 琳一安全平台</p>
+    </footer>
+
+    <div class="floating-notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <div class="notification-content">
+            <div class="notification-title">操作成功</div>
+            <div class="notification-message">任务已完成</div>
+        </div>
+        <button class="close-notification" id="close-notification">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- 音频元素用于播放成功提示音 -->
+    <audio id="success-sound" preload="auto">
+        <source src="data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAADwADw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PD//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8AAABQTEFNRTMuMTAwBKkAAAAAAAAADgMAABCAJANkRQABTAADwMDw8GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//tQZAAP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAETEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV VaughVU=" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // 保持原有的JavaScript代码不变，只修改CSS部分以适应移动端
+        document.addEventListener('DOMContentLoaded', function() {
+            const verifySingleBtn = document.getElementById('verify-single-btn');
+            const verifyBatchBtn = document.getElementById('verify-batch-btn');
+            const stopBatchBtn = document.getElementById('stop-batch-btn');
+            const saveBtn = document.getElementById('save-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const realnameInput = document.getElementById('realname');
+            const idcardInput = document.getElementById('idcard');
+            const resultContainer = document.getElementById('result-container');
+            const loadingDiv = document.getElementById('loading');
+            const cmdOutput = document.getElementById('cmd-output');
+            const clearCmdBtn = document.getElementById('clear-cmd');
+            const fileInput = document.getElementById('file-input');
+            const uploadArea = document.getElementById('upload-area');
+            const fileInfo = document.getElementById('file-info');
+            const fileName = document.getElementById('file-name');
+            const fileLines = document.getElementById('file-lines');
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const requestDelayInput = document.getElementById('request-delay');
+            const notification = document.getElementById('notification');
+            const closeNotification = document.getElementById('close-notification');
+            const successSound = document.getElementById('success-sound');
+            
+            let batchData = [];
+            let currentBatchResults = [];
+            let isBatchRunning = false;
+            let currentRequestIndex = 0;
+            let stopRequested = false;
+            let requestRateLimitHit = false;
+            let stopReason = null; // 'user', 'rate_limit', 'success'
+            
+            // 播放成功提示音
+            function playSuccessSound() {
+                successSound.currentTime = 0;
+                successSound.play().catch(e => console.log("音频播放失败:", e));
+            }
+            
+            // 显示通知
+            function showNotification(title, message, type = 'success') {
+                const icon = type === 'success' ? 'fa-check-circle' : 
+                            type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+                
+                notification.innerHTML = `
+                    <i class="fas ${icon}"></i>
+                    <div class="notification-content">
+                        <div class="notification-title">${title}</div>
+                        <div class="notification-message">${message}</div>
+                    </div>
+                    <button class="close-notification">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                notification.className = `floating-notification notification-${type} show`;
+                
+                // 添加新的事件监听器
+                notification.querySelector('.close-notification').addEventListener('click', hideNotification);
+                
+                // 5秒后自动隐藏
+                setTimeout(hideNotification, 5000);
+            }
+            
+            // 隐藏通知
+            function hideNotification() {
+                notification.classList.remove('show');
+            }
+            
+            // 添加CMD输出
+            function addCmdOutput(message, type = "info") {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString();
+                const outputLine = document.createElement('div');
+                outputLine.className = 'cmd-line';
+                
+                let content = '';
+                if (type === 'output') {
+                    content = `<span class="cmd-output">${message}</span>`;
+                } else {
+                    content = `<span class="cmd-${type}">${message}</span>`;
+                }
+                
+                outputLine.innerHTML = `
+                    <span class="cmd-prompt">[${timeString}] $</span>
+                    ${content}
+                `;
+                cmdOutput.appendChild(outputLine);
+                cmdOutput.scrollTop = cmdOutput.scrollHeight;
+            }
+            
+            // 清空CMD输出
+            clearCmdBtn.addEventListener('click', function() {
+                cmdOutput.innerHTML = '';
+                addCmdOutput('日志已清空', 'info');
+                showNotification('日志已清空', '所有日志信息已被清除', 'success');
+            });
+            
+            // 关闭通知
+            closeNotification.addEventListener('click', hideNotification);
+            
+            // 文件上传处理
+            uploadArea.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.style.borderColor = 'var(--primary)';
+                uploadArea.style.backgroundColor = 'rgba(67, 97, 238, 0.1)';
+            });
+            
+            uploadArea.addEventListener('dragleave', function() {
+                uploadArea.style.borderColor = '#d1d8e0';
+                uploadArea.style.backgroundColor = 'rgba(67, 97, 238, 0.03)';
+            });
+            
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#d1d8e0';
+                uploadArea.style.backgroundColor = 'rgba(67, 97, 238, 0.03)';
+                
+                if (e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    handleFileSelect(e);
+                }
+            });
+            
+            fileInput.addEventListener('change', handleFileSelect);
+            
+            function handleFileSelect(e) {
+                const file = e.target.files[0];
+                if (!file || !file.name.endsWith('.txt')) {
+                    addCmdOutput('错误：请选择TXT文件', 'error');
+                    showNotification('文件错误', '请选择TXT格式的文件', 'error');
+                    return;
+                }
+                
+                fileName.textContent = file.name;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const content = e.target.result;
+                    const lines = content.split('\n').filter(line => line.trim() !== '');
+                    
+                    batchData = [];
+                    
+                    for (let i = 0; i < lines.length; i++) {
+                        const line = lines[i].trim();
+                        // 只保留18位编码号码（允许X结尾）
+                        const idcard = line.replace(/[^\dXx]/g, '').toUpperCase();
+                        
+                        if (idcard.length === 18) {
+                            batchData.push({ idcard: idcard, line: i + 1 });
+                        }
+                    }
+                    
+                    fileLines.textContent = batchData.length;
+                    fileInfo.style.display = 'block';
+                    
+                    if (batchData.length > 0) {
+                        verifyBatchBtn.disabled = false;
+                        addCmdOutput(`成功读取文件: ${file.name}, 找到 ${batchData.length} 个有效编码`, 'success');
+                        showNotification('文件上传成功', `成功读取 ${batchData.length} 个编码`, 'success');
+                    } else {
+                        addCmdOutput('错误：文件中没有有效的编码', 'error');
+                        showNotification('文件内容错误', '文件中没有有效的编码', 'error');
+                    }
+                };
+                
+                reader.readAsText(file);
+            }
+            
+            // 使用AllOrigins代理发送请求
+            function makeApiRequest(realname, idcard, appkey) {
+                return new Promise((resolve, reject) => {
+                    // 构建API URL
+                    const apiUrl = `https://api.byxy.vip/v2/idcard/?realname=${encodeURIComponent(realname)}&idcard=${idcard}&appkey=${appkey}`;
+                    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`;
+                    
+                    // 记录请求时间
+                    const startTime = new Date().getTime();
+                    
+                    // 发送请求
+                    fetch(proxyUrl, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                        }
+                    })
+                    .then(response => {
+                        const endTime = new Date().getTime();
+                        const responseTime = endTime - startTime;
+                        
+                        if (!response.ok) {
+                            throw new Error(`HTTP错误: ${response.status} ${response.statusText}`);
+                        }
+                        
+                        return response.json().then(data => ({
+                            data,
+                            responseTime
+                        }));
+                    })
+                    .then(({data, responseTime}) => {
+                        resolve({data, responseTime});
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+                });
+            }
+            
+            // 单个验证
+            verifySingleBtn.addEventListener('click', function() {
+                const realname = realnameInput.value.trim();
+                const idcard = idcardInput.value.trim();
+                
+                // 简单验证输入
+                if (!realname) {
+                    addCmdOutput('错误：请输入姓名', 'error');
+                    showNotification('输入错误', '请输入姓名', 'error');
+                    return;
+                }
+                
+                if (!idcard || idcard.length !== 18) {
+                    addCmdOutput('错误：请输入有效的18位编码', 'error');
+                    showNotification('输入错误', '请输入有效的18位编码', 'error');
+                    return;
+                }
+                
+                // 显示加载状态
+                loadingDiv.style.display = 'block';
+                resultContainer.style.display = 'none';
+                verifySingleBtn.disabled = true;
+                
+                // 构建API URL
+                const appkey = '02a1842bb27f3e6f1b0e1348b71cf63987b88fa51f6c1158';
+                
+                addCmdOutput(`开始单个验证: 姓名=${realname}, 编码=${idcard}`, 'info');
+                
+                // 发送API请求
+                makeApiRequest(realname, idcard, appkey)
+                    .then(({data, responseTime}) => {
+                        addCmdOutput(`API响应时间: ${responseTime}ms`, 'info');
+                        addCmdOutput('API返回数据:', 'info');
+                        addCmdOutput(JSON.stringify(data, null, 2), 'output');
+                        
+                        // 处理API响应
+                        if (data && data.code === "100200") {
+                            if (data.result.res === "1") {
+                                addCmdOutput('验证成功: 编码信息匹配', 'success');
+                                playSuccessSound(); // 播放成功提示音
+                                showNotification('验证成功', '编码信息匹配', 'success');
+                                showSingleResult('success', '验证成功', data.result, data, responseTime);
+                            } else if (data.result.res === "2") {
+                                addCmdOutput('验证失败: 编码信息不匹配', 'error');
+                                showNotification('验证失败', '编码信息不匹配', 'error');
+                                showSingleResult('error', '验证失败：编码信息不匹配', data.result, data, responseTime);
+                            } else {
+                                addCmdOutput(`验证失败: 未知结果代码 ${data.result.res}`, 'error');
+                                showNotification('验证失败', `未知结果代码 ${data.result.res}`, 'error');
+                                showSingleResult('error', `验证失败：未知结果代码 ${data.result.res}`, data.result, data, responseTime);
+                            }
+                        } else {
+                            addCmdOutput(`请求失败: ${data.msg || '未知错误'}`, 'error');
+                            showNotification('请求失败', data.msg || '未知错误', 'error');
+                            showSingleResult('error', `请求失败：${data.msg || '未知错误'}`, null, data, responseTime);
+                        }
+                    })
+                    .catch(error => {
+                        addCmdOutput(`请求出错: ${error.message}`, 'error');
+                        showNotification('请求出错', error.message, 'error');
+                        showSingleResult('error', `请求出错：${error.message}`);
+                    })
+                    .finally(() => {
+                        loadingDiv.style.display = 'none';
+                        verifySingleBtn.disabled = false;
+                    });
+            });
+            
+            // 批量验证
+            verifyBatchBtn.addEventListener('click', function() {
+                const realname = realnameInput.value.trim();
+                
+                if (!realname) {
+                    addCmdOutput('错误：请输入姓名', 'error');
+                    showNotification('输入错误', '请输入姓名', 'error');
+                    return;
+                }
+                
+                if (batchData.length === 0) {
+                    addCmdOutput('错误：没有可验证的数据', 'error');
+                    showNotification('验证错误', '没有可验证的数据', 'error');
+                    return;
+                }
+                
+                // 显示加载状态
+                loadingDiv.style.display = 'block';
+                resultContainer.style.display = 'none';
+                verifyBatchBtn.disabled = true;
+                verifySingleBtn.disabled = true;
+                stopBatchBtn.disabled = false;
+                saveBtn.disabled = true;
+                
+                currentBatchResults = [];
+                currentRequestIndex = 0;
+                isBatchRunning = true;
+                stopRequested = false;
+                requestRateLimitHit = false;
+                stopReason = null;
+                
+                const delay = parseInt(requestDelayInput.value) || 500;
+                
+                addCmdOutput(`开始批量验证: 姓名=${realname}, 共 ${batchData.length} 个编码, 请求间隔: ${delay}ms`, 'info');
+                showNotification('开始批量验证', `正在验证 ${batchData.length} 个编码`, 'success');
+                
+                // 开始批量验证
+                processBatchValidation(realname, delay);
+            });
+            
+            // 停止批量验证
+            stopBatchBtn.addEventListener('click', function() {
+                if (isBatchRunning) {
+                    stopRequested = true;
+                    stopReason = 'user';
+                    addCmdOutput('用户请求停止验证', 'warning');
+                    showNotification('验证已停止', '用户请求停止验证', 'warning');
+                }
+            });
+            
+            // 保存结果
+            saveBtn.addEventListener('click', function() {
+                generateIDFile();
+            });
+            
+            function processBatchValidation(realname, delay) {
+                if (stopRequested || currentRequestIndex >= batchData.length || requestRateLimitHit || stopReason === 'success') {
+                    // 停止或完成所有请求
+                    isBatchRunning = false;
+                    loadingDiv.style.display = 'none';
+                    verifyBatchBtn.disabled = false;
+                    verifySingleBtn.disabled = false;
+                    stopBatchBtn.disabled = true;
+                    saveBtn.disabled = false;
+                    
+                    if (stopReason === 'success') {
+                        addCmdOutput(`验证成功，已自动停止并保存结果`, 'success');
+                        showNotification('验证成功', '已找到有效编码并自动保存', 'success');
+                        generateIDFile(); // 自动保存成功结果
+                    } else if (stopRequested) {
+                        addCmdOutput(`批量验证已停止: 已处理 ${currentRequestIndex} 个，剩余 ${batchData.length - currentRequestIndex} 个未处理`, 'warning');
+                        
+                        // 标记未处理的条目为已跳过
+                        for (let i = currentRequestIndex; i < batchData.length; i++) {
+                            const item = batchData[i];
+                            currentBatchResults.push({
+                                line: item.line,
+                                realname: realname,
+                                idcard: item.idcard,
+                                status: 'skipped',
+                                message: '已跳过（用户停止）',
+                                response: null,
+                                responseTime: 0
+                            });
+                        }
+                    } else if (requestRateLimitHit) {
+                        addCmdOutput(`请求频率限制触发，验证已停止: 已处理 ${currentRequestIndex} 个`, 'error');
+                        showNotification('请求频率限制', '验证已停止，请稍后再试', 'error');
+                        
+                        // 标记未处理的条目为已跳过
+                        for (let i = currentRequestIndex; i < batchData.length; i++) {
+                            const item = batchData[i];
+                            currentBatchResults.push({
+                                line: item.line,
+                                realname: realname,
+                                idcard: item.idcard,
+                                status: 'skipped',
+                                message: '已跳过（请求频率限制）',
+                                response: null,
+                                responseTime: 0
+                            });
+                        }
+                    } else {
+                        addCmdOutput(`批量验证完成: 共处理 ${batchData.length} 个编码`, 'success');
+                        showNotification('批量验证完成', `共处理 ${batchData.length} 个编码`, 'success');
+                    }
+                    
+                    showBatchResults();
+                    return;
+                }
+                
+                // 更新进度
+                const progress = Math.round((currentRequestIndex / batchData.length) * 100);
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = `处理中: ${currentRequestIndex}/${batchData.length} (${progress}%)`;
+                
+                const item = batchData[currentRequestIndex];
+                const appkey = '02a1842bb27f3e6f1b0e1348b71cf63987b88fa51f6c1158';
+                
+                addCmdOutput(`验证第 ${currentRequestIndex + 1} 个编码: ${item.idcard}`, 'info');
+                
+                // 发送API请求
+                makeApiRequest(realname, item.idcard, appkey)
+                    .then(({data, responseTime}) => {
+                        let status = 'error';
+                        let message = '验证失败';
+                        
+                        if (data && data.code === "100200") {
+                            if (data.result.res === "1") {
+                                status = 'success';
+                                message = '验证成功';
+                                playSuccessSound(); // 播放成功提示音
+                                
+                                // 成功时设置停止原因
+                                stopReason = 'success';
+                                stopRequested = true;
+                            } else if (data.result.res === "2") {
+                                message = '编码信息不匹配';
+                                addCmdOutput(`第 ${currentRequestIndex + 1} 个编码验证失败: 编码信息不匹配`, 'error');
+                            } else {
+                                message = `未知结果代码 ${data.result.res}`;
+                                addCmdOutput(`第 ${currentRequestIndex + 1} 个编码验证失败: 未知结果代码 ${data.result.res}`, 'error');
+                            }
+                        } else {
+                            message = data.msg || '未知错误';
+                            addCmdOutput(`第 ${currentRequestIndex + 1} 个编码请求失败: ${message}`, 'error');
+                            
+                            // 检查是否触发了请求频率限制
+                            if (message.includes('频繁') || message.includes('限制')) {
+                                requestRateLimitHit = true;
+                            }
+                        }
+                        
+                        // 保存结果
+                        currentBatchResults.push({
+                            line: item.line,
+                            realname: realname,
+                            idcard: item.idcard,
+                            status: status,
+                            message: message,
+                            response: data,
+                            responseTime: responseTime
+                        });
+                        
+                        currentRequestIndex++;
+                        
+                        // 处理下一个编码（带延迟）
+                        if (!stopRequested && !requestRateLimitHit && stopReason !== 'success') {
+                            setTimeout(() => {
+                                processBatchValidation(realname, delay);
+                            }, delay);
+                        } else {
+                            processBatchValidation(realname, delay); // 立即处理停止逻辑
+                        }
+                    })
+                    .catch(error => {
+                        addCmdOutput(`第 ${currentRequestIndex + 1} 个编码请求出错: ${error.message}`, 'error');
+                        
+                        // 检查是否触发了请求频率限制
+                        if (error.message.includes('频繁') || error.message.includes('限制')) {
+                            requestRateLimitHit = true;
+                        }
+                        
+                        // 保存错误结果
+                        currentBatchResults.push({
+                            line: item.line,
+                            realname: realname,
+                            idcard: item.idcard,
+                            status: 'error',
+                            message: `请求出错: ${error.message}`,
+                            response: null,
+                            responseTime: 0
+                        });
+                        
+                        currentRequestIndex++;
+                        
+                        // 处理下一个编码（带延迟）
+                        if (!stopRequested && !requestRateLimitHit && stopReason !== 'success') {
+                            setTimeout(() => {
+                                processBatchValidation(realname, delay);
+                            }, delay);
+                        } else {
+                            processBatchValidation(realname, delay); // 立即处理停止逻辑
+                        }
+                    });
+            }
+            
+            function generateIDFile() {
+                // 获取所有需要保存的编码（成功、跳过和请求频繁的）
+                const idsToSave = currentBatchResults
+                    .filter(result => result.status === 'success' || result.status === 'skipped' || 
+                                    result.message.includes('频繁') || result.message.includes('限制'))
+                    .map(result => result.idcard.replace(/[^\d]/g, '')); // 只保留数字
+                
+                // 如果没有需要保存的，则返回
+                if (idsToSave.length === 0) {
+                    addCmdOutput('没有需要保存的编码号码', 'info');
+                    showNotification('没有数据', '没有需要保存的编码号码', 'warning');
+                    return;
+                }
+                
+                // 创建文本内容，每行一个编码
+                const content = idsToSave.join('\n');
+                
+                // 创建Blob对象
+                const blob = new Blob([content], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                
+                // 创建下载链接
+                const a = document.createElement('a');
+                a.href = url;
+                
+                // 根据停止原因设置文件名
+                if (stopReason === 'success') {
+                    a.download = '成功数字编码.txt';
+                } else {
+                    a.download = '校验编码.txt';
+                }
+                
+                a.click();
+                
+                // 清理URL对象
+                URL.revokeObjectURL(url);
+                
+                addCmdOutput(`已生成编码文件: ${a.download} (${idsToSave.length} 个)`, 'success');
+                showNotification('文件已保存', `已保存 ${idsToSave.length} 个编码号码`, 'success');
+            }
+            
+            function showSingleResult(type, message, resultData, apiData, responseTime) {
+                if (type === 'success' && resultData) {
+                    const resultHtml = `
+                        <div class="card">
+                            <div class="result-header">
+                                <div class="result-icon success-icon"><i class="fas fa-check"></i></div>
+                                <h2 class="result-title">${message} <span class="result-badge success-badge">验证通过</span></h2>
+                            </div>
+                            <div class="result-details">
+                                <h3><i class="fas fa-info-circle"></i> 详细信息</h3>
+                                <div class="detail-row">
+                                    <span class="detail-label">响应时间:</span>
+                                    <span class="detail-value">${responseTime}ms</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">姓名：</span>
+                                    <span class="detail-value">${resultData.realname || realnameInput.value}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">编码号：</span>
+                                    <span class="detail-value">${resultData.idcard || idcardInput.value}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">性别：</span>
+                                    <span class="detail-value">${resultData.sex || '未知'}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">年龄：</span>
+                                    <span class="detail-value">${resultData.age || '未知'}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">生日：</span>
+                                    <span class="detail-value">${resultData.birthday || resultData.birthday_text || '未知'}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">地址：</span>
+                                    <span class="detail-value">${resultData.address || '未知'}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    resultContainer.innerHTML = resultHtml;
+                } else {
+                    const resultHtml = `
+                        <div class="card">
+                            <div class="result-header">
+                                <div class="result-icon error-icon"><i class="fas fa-times"></i></div>
+                                <h2 class="result-title">${message} <span class="result-badge error-badge">验证未通过</span></h2>
+                            </div>
+                            <div class="result-details">
+                                <p>您输入的编码信息未能通过验证，请检查姓名和编码号码是否正确。</p>
+                                <div class="detail-row">
+                                    <span class="detail-label">姓名：</span>
+                                    <span class="detail-value">${realnameInput.value}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">编码号：</span>
+                                    <span class="detail-value">${idcardInput.value}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    resultContainer.innerHTML = resultHtml;
+                }
+                
+                resultContainer.style.display = 'block';
+                
+                // 平滑滚动到结果区域
+                resultContainer.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            function showBatchResults() {
+                const successCount = currentBatchResults.filter(result => result.status === 'success').length;
+                const errorCount = currentBatchResults.filter(result => result.status === 'error').length;
+                const skippedCount = currentBatchResults.filter(result => result.status === 'skipped').length;
+                const totalCount = currentBatchResults.length;
+                
+                // 只显示错误结果（不显示成功和跳过的）
+                const errorResults = currentBatchResults.filter(result => result.status === 'error');
+                
+                let resultsHtml = `
+                    <div class="card">
+                        <div class="result-header">
+                            <div class="result-icon ${errorCount > 0 ? 'error-icon' : 'success-icon'}">
+                                <i class="fas ${errorCount > 0 ? 'fa-times' : 'fa-check'}"></i>
+                            </div>
+                            <h2 class="result-title">批量验证完成 <span class="result-badge ${errorCount > 0 ? 'error-badge' : 'success-badge'}">${successCount} 成功, ${errorCount} 失败, ${skippedCount} 跳过</span></h2>
+                        </div>
+                        
+                        <div class="batch-results">
+                            <div class="batch-summary">
+                                <div class="summary-item total-count">
+                                    <div class="summary-value">${totalCount}</div>
+                                    <div class="summary-label">总编码数</div>
+                                </div>
+                                <div class="summary-item success-count">
+                                    <div class="summary-value">${successCount}</div>
+                                    <div class="summary-label">验证成功</div>
+                                </div>
+                                <div class="summary-item error-count">
+                                    <div class="summary-value">${errorCount}</div>
+                                    <div class="summary-label">验证失败</div>
+                                </div>
+                                <div class="summary-item skipped-count">
+                                    <div class="summary-value">${skippedCount}</div>
+                                    <div class="summary-label">已跳过</div>
+                                </div>
+                            </div>
+                `;
+                
+                // 只显示错误结果
+                if (errorResults.length > 0) {
+                    resultsHtml += `
+                        <div class="results-table-container">
+                            <table class="results-table">
+                                <thead>
+                                    <tr>
+                                        <th>行号</th>
+                                        <th>姓名</th>
+                                        <th>编码号</th>
+                                        <th>状态</th>
+                                        <th>消息</th>
+                                        <th>响应时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                    `;
+                    
+                    errorResults.forEach(result => {
+                        resultsHtml += `
+                            <tr>
+                                <td>${result.line}</td>
+                                <td>${result.realname}</td>
+                                <td>${result.idcard}</td>
+                                <td><span class="status-error">失败</span></td>
+                                <td>${result.message}</td>
+                                <td>${result.responseTime}ms</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    resultsHtml += `
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                } else {
+                    resultsHtml += `
+                        <div class="no-results">
+                            <p style="text-align: center; padding: 20px; color: var(--text-secondary);">
+                                <i class="fas fa-check-circle" style="color: var(--success); font-size: 3rem; margin-bottom: 15px;"></i><br>
+                                没有验证失败的编码号码
+                            </p>
+                        </div>
+                    `;
+                }
+                
+                resultsHtml += `
+                        </div>
+                    </div>
+                `;
+                
+                resultContainer.innerHTML = resultsHtml;
+                resultContainer.style.display = 'block';
+                resultContainer.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // 清除结果
+            clearBtn.addEventListener('click', function() {
+                resultContainer.style.display = 'none';
+                resultContainer.innerHTML = '';
+                realnameInput.value = '';
+                idcardInput.value = '';
+                fileInput.value = '';
+                fileInfo.style.display = 'none';
+                verifyBatchBtn.disabled = true;
+                stopBatchBtn.disabled = true;
+                saveBtn.disabled = true;
+                batchData = [];
+                currentBatchResults = [];
+                isBatchRunning = false;
+                stopRequested = false;
+                stopReason = null;
+                
+                addCmdOutput('已清除所有结果和输入', 'info');
+                showNotification('已清除', '所有输入和结果已清除', 'success');
+            });
+            
+            // 编码输入格式化和验证
+            idcardInput.addEventListener('input', function() {
+                this.value = this.value.replace(/[^\dXx]/g, '').toUpperCase();
+                if (this.value.length > 18) {
+                    this.value = this.value.slice(0, 18);
+                }
+            });
+            
+            // 初始示例验证
+            setTimeout(() => {
+                addCmdOutput('系统已初始化，可以输入姓名并上传TXT文件进行批量验证', 'info');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
